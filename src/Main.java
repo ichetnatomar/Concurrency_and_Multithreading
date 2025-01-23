@@ -1,3 +1,6 @@
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class Main {
     public static void main(String[] args) {
         System.out.println("inside main method"); //1
@@ -43,6 +46,22 @@ public class Main {
         t5.start();
         t6.start();
 
+
+
+        //create a Thread pool
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
+
+        //create tasks
+        for(int i = 0; i < 10; i++){
+          Runnable worker =  new WorkerThread(i);
+          executorService.execute(worker);
+        }
+
+        executorService.shutdown();
+
+        while(!executorService.isTerminated()){}
+
+        System.out.println("exiting main method");
 
     }
 }
